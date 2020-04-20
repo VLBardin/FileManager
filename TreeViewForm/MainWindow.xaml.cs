@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,9 +30,38 @@ namespace TreeViewForm
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new DirectoryStructureViewModel();
+            DataContext = new DirectoryStructureViewModel();
         }
 
-    #endregion
-}
+        #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = (DirectoryItemViewModel)FolderView.SelectedItem;
+            TestTextBox.Text = selectedItem.Name.ToString();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = (DirectoryItemViewModel)FolderView.SelectedItem;
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(selectedItem.FullPath)
+            {
+                UseShellExecute = true
+            };
+            p.Start();
+        }
+
+        private void FolderView_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var item = (TreeViewItem)FocusManager.GetFocusedElement(this);
+            item.IsSelected = true;
+            item.FontWeight = FontWeights.Bold;
+        }
+
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+    }
 }

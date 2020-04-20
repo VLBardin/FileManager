@@ -15,7 +15,8 @@ namespace TreeViewForm
         /// A list of all directories on the machine
         /// </summary>
         public ObservableCollection<DirectoryItemViewModel> Items { get; set; }
- 
+        public FileInfo FileInfo { get; set; } = new FileInfo(@"C:\Users\User\Desktop\Влад\desktopBG.jpg");
+
         #endregion
 
         #region
